@@ -1,0 +1,112 @@
+version: 2
+
+models:
+
+  - name: stg_orders
+    description: "Cleaned StreamCart order events extracted from raw JSON."
+
+    columns:
+      
+      - name: event_id
+        description: "Unique event identifier."
+        tests:
+          - unique
+          - not_null
+      
+      - name: order_id
+        description: "Unique order id."
+      
+      - name: order_total
+        description: "Total amount of the order."
+      
+      - name: event_type
+        tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - order_placed
+                  - order_cancelled
+                  - add_to_cart
+                  - checkout
+                  - page_view
+      
+      - name: payment_status
+        description: "Final payment status."
+        tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - success
+                  - failed
+                  - pending
+      
+      - name: currency_code
+        tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - INR
+                  - USD
+                  - GBP
+                  - AED
+                  - EUR
+
+          - valid_currency
+      
+      - name: quantity
+        tests:
+          - not_null
+      
+      - name: customer_id
+        description: "Customer identifier."
+        tests:
+          - not_null
+
+      - name: product_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_products')
+                field: product_id
+
+      - name: net_amount
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1000000
+
+      - name: email
+        tests:
+          - dbt_expectations.expect_column_values_to_match_regex:
+              regex: '^[a-z0-9._%+-]+@[a-z0-9.-]+[.][a-z]{2,}$'
+
+  - name: stg_products
+    description: "Cleaned product master."
+
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "list_price >= cost_price"
+
+    columns:
+
+      - name: product_id
+        description: "Unique product identifier."
+        tests:
+          - unique
+          - not_null
+      
+      - name: product_name
+        description: "Product name."
+      
+      - name: category
+        description: "Business category."
+      
+      - name: list_price
+        description: "Product selling price."
+
+      - name: margin_pct
+        description: "Calculated margin percentage."
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100

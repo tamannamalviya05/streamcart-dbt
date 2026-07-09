@@ -1,0 +1,6 @@
+channel_code,channel_label,channel_group,is_digital
+mobile_app,Mobile App,Owned,TRUE
+web,Website,Owned,TRUE
+partner_api,Partner API,Partner,TRUE
+in_store,In-Store,Physical,FALSE
+call_centre,Call Centre,Physical,FALSE

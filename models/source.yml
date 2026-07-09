@@ -1,0 +1,42 @@
+version: 2
+
+sources:
+  - name: raw_streamcart
+    database: ANALYTICS
+    schema: raw_streamcart
+    tables:
+      - name: raw_orders
+        description: "Raw order events ingested from mobile app, web platform, and partner APIs. Contains nested customer, order, payment, and metadata information stored as JSON."
+
+        loaded_at_field: _loaded_at
+
+        freshness:
+          warn_after:
+            count: 12
+            period: hour
+          error_after:
+            count: 24
+            period: hour
+
+        columns:
+          - name: data
+            description: "JSON payload containing order event details including customer, order, items, payment, and metadata."
+
+          - name: _loaded_at
+            description: "Timestamp indicating when the order event was loaded into the raw layer."
+
+          - name: _source
+            description: "Source system that produced the event such as api_gateway, partner_api, or mobile_sdk."
+
+      - name: raw_products
+        description: "Raw product data from the warehouse system."
+
+        columns:
+         - name: data
+           description: "JSON payload containing product details."
+
+         - name: _loaded_at
+           description: "Record load timestamp."
+
+         - name: product_id
+           description: "Unique product identifier."

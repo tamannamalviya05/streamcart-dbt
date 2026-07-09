@@ -1,0 +1,7 @@
+country_code,country_name,region,currency_default,tax_rate_pct
+IN,India,Asia,INR,18
+US,United States,Americas,USD,0
+GB,United Kingdom,Europe,GBP,20
+AE,UAE,Middle East,AED,5
+DE,Germany,Europe,EUR,19
+AU,Australia,Asia Pacific,AUD,10

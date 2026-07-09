@@ -1,0 +1,158 @@
+version: 2
+
+models:
+
+  - name: monthly_revenue_summary
+
+    description: "Monthly revenue summary containing order, revenue, discount, top category and top channel KPIs."
+
+    meta:
+      owner: "data-eng@streamcart.com"
+      contains_pii: true
+      refresh_frequency: "daily"
+
+    columns:
+
+      - name: order_year
+        description: "Year of the order."
+
+      - name: order_month
+        description: "Month of the order."
+
+      - name: total_orders
+        description: "Total successful orders for the month."
+
+      - name: total_gross_revenue
+        description: "Total gross revenue."
+
+      - name: total_net_revenue
+        description: "Total net revenue."
+
+      - name: total_discount_given
+        description: "Total discount provided."
+
+      - name: avg_discount_pct
+        description: "Average discount percentage."
+
+      - name: top_category
+        description: "Category with the highest revenue."
+
+      - name: top_channel
+        description: "Sales channel with the highest order count."
+
+  - name: product_performance
+
+    description: "Product level performance metrics including revenue, ranking and inventory information."
+
+    meta:
+      owner: "data-eng@streamcart.com"
+      contains_pii: true
+      refresh_frequency: "daily"
+
+    columns:
+
+      - name: product_id
+        description: "Unique product identifier."
+
+      - name: product_name
+        description: "Product name."
+
+      - name: category
+        description: "Product category."
+
+      - name: sub_category
+        description: "Product sub-category."
+
+      - name: brand
+        description: "Product brand."
+
+      - name: margin_pct
+        description: "Product margin percentage."
+
+      - name: is_low_stock
+        description: "Indicates whether the product is below the reorder level."
+
+      - name: total_units_sold
+        description: "Total quantity sold."
+
+      - name: total_net_revenue
+        description: "Total revenue generated."
+
+      - name: avg_discount_pct
+        description: "Average discount percentage."
+
+      - name: revenue_rank
+        description: "Revenue ranking within each category."
+
+      - name: qty_on_hand
+        description: "Available inventory quantity."
+
+      - name: reorder_level
+        description: "Configured reorder level."
+
+      - name: warehouse_code
+        description: "Warehouse storing the product."
+
+  - name: channel_performance_summary
+
+    description: "Daily performance summary for each sales channel."
+
+    meta:
+      owner: "data-eng@streamcart.com"
+      contains_pii: true
+      refresh_frequency: "daily"
+
+    columns:
+
+      - name: order_date
+        description: "Order date."
+
+      - name: channel
+        description: "Sales channel."
+
+      - name: total_orders
+        description: "Total number of orders."
+
+      - name: successful_orders
+        description: "Number of successful orders."
+
+      - name: cancelled_orders
+        description: "Number of cancelled orders."
+
+      - name: success_rate_pct
+        description: "Percentage of successful orders."
+
+      - name: total_gross_revenue
+        description: "Total gross revenue."
+
+      - name: total_net_revenue
+        description: "Total net revenue."
+
+      - name: avg_order_value
+        description: "Average order value."
+
+      - name: most_used_payment_method
+        description: "Most frequently used payment method."
+
+  - name: category_revenue_pivot
+
+    description: "Customer-wise revenue pivoted across major product categories."
+
+    meta:
+      owner: "data-eng@streamcart.com"
+      contains_pii: true
+      refresh_frequency: "daily"
+
+    columns:
+
+      - name: customer_id
+        description: "Customer identifier."
+
+      - name: electronics_revenue
+        description: "Revenue generated from Electronics."
+
+      - name: apparel_revenue
+        description: "Revenue generated from Apparel."
+
+      - name: home_goods_revenue
+        description: "Revenue generated from Home Goods."

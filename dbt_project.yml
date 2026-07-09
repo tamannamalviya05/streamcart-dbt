@@ -1,0 +1,65 @@
+
+
+name: 'streamcart_dbt'
+version: '1.0.0'
+
+
+profile: 'my_dbt_project'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+
+models:
+  streamcart_dbt:
+    staging:
+      +materialized: view
+
+    intermediate:
+      +materialized: ephemeral
+
+    marts:
+      +materialized: table
+
+seeds: 
+ streamcart_dbt:
+
+   channel_mapping:
+     +column_types:
+       channel_code: varchar(20)
+       channel_label: varchar(50)
+       channel_group: varchar(30)
+       is_digital: boolean
+
+   country_confing:
+     +column_types:
+       country_code: varchar(5)
+       country_name: varchar(50)
+       region: varchar(30)
+       currency_default: varchar(10)
+       tax_rate_pct: float
+
+on-run-start:
+  - >
+     CREATE TABLE IF NOT EXISTS {{target.schema}}.dbt_run_log(
+        run_id VARCHAR,
+        started_at TIMESTAMP,
+        target_name VARCHAR)
+
+  - > 
+     INSERT INTO {{target.schema}}.dbt_run_log VALUES (
+     '{{ invocation_id }}',
+     '{{ run_started_at }}',
+     '{{ target.name }}')
+
+on-run-end:
+  - >
+     GRANT SELECT ON ALL TABLES IN SCHEMA {{ target.schema }} TO ROLE reporting_role
