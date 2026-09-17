@@ -1,15 +1,58 @@
-Welcome to your new dbt project!
+# StreamCart — dbt Core Project
 
-### Using the starter project
+An end-to-end **dbt Core data transformation project** for StreamCart using nested JSON data.
 
-Try running the following commands:
-- dbt run
-- dbt test
+## Tech Stack
 
+* dbt Core
+* Snowflake / Databricks
+* SQL & Jinja
+* Git & GitHub
 
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+## Pipeline
+
+```text
+Raw JSON → Staging → Intermediate → Mart
+```
+
+## Key Concepts
+
+* JSON flattening & data cleaning
+* Sources & materializations
+* Jinja & custom macros
+* dbt_utils & dbt_expectations
+* KPI models
+* Incremental models
+* Seeds & reference data
+* Snapshots (SCD Type 2)
+* Data quality testing
+* Hooks & documentation
+
+## Project Structure
+
+```text
+models/
+├── staging/
+├── intermediate/
+└── marts/
+macros/
+seeds/
+snapshots/
+tests/
+dbt_project.yml
+packages.yml
+```
+
+## Run
+
+```bash
+dbt deps
+dbt seed
+dbt build
+dbt snapshot
+dbt docs generate
+```
+
+## Author
+
+**Tamanna Malviya**
